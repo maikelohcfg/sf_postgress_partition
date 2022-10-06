@@ -1,0 +1,14 @@
+#configure env.local
+DATABASE_URL="postgresql://user:password@127.0.0.1:5432/databaseName?serverVersion=14&charset=utf8"
+
+#run command to populate with fake data with year
+php bin/console app:generate-clientes <year>
+php bin/console app:generate-clientes 2022
+
+#SQL queries
+EXPLAIN ANALYZE SELECT * FROM cliente WHERE created BETWEEN '2018-03-05' AND '2018-07-20';
+EXPLAIN ANALYZE SELECT * FROM cliente WHERE created BETWEEN '2019-03-05' AND '2019-07-20';
+EXPLAIN ANALYZE SELECT * FROM cliente WHERE created BETWEEN '2022-03-05' AND '2022-07-20';
+
+#create new partition
+CREATE TABLE IF NOT EXISTS client_part_2022 PARTITION OF cliente FOR VALUES FROM ('2022-01-01') TO ('2023-01-01');
